@@ -2,22 +2,23 @@
   "name": "nest-typescript-starter",
   "private": true,
   "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
+  "description": "Appsome Nest TypeScript starter repository",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "nest start --watch",
-    "start:debug": "nest start --debug --watch",
+    "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:prod": "node dist/main",
+    "start:dev": "nodemon",
+    "start:debug": "nodemon --config nodemon-debug.json",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "doc": "compodoc -p tsconfig.json -s"
   },
   "dependencies": {
     "@nestjs/common": "^6.8.0",
@@ -27,7 +28,9 @@
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
     "uuid": "^3.3.3",
-    "joi": "^14.3.1"
+    "joi": "^14.3.1",
+    "dotenv": "^8.2.0",
+    "helmet": "^3.21.2"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.1",
@@ -41,6 +44,9 @@
     "@typescript-eslint/parser": "^2.6.0",
     "@types/uuid": "^3.4.6",
     "@types/joi": "^14.3.4",
+    "@types/dotenv": "^8.2.0",
+    "@types/helmet": "^0.0.45",
+    "@compodoc/compodoc": "^1.1.11",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.5.0",
@@ -58,7 +64,8 @@
     "tsconfig-paths": "^3.9.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typescript": "^3.6.3"
+    "typescript": "^3.6.3",
+    "nodemon": "^1.19.4"
   },
   "lint-staged": {
     "*.ts": [

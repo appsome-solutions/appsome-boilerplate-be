@@ -25,6 +25,8 @@
     "@nestjs/core": "^6.8.0",
     "@nestjs/platform-express": "^6.8.0",
     "@nestjs/mongoose": "^6.1.2",
+    "@nestjs/graphql": "^6.5.3",
+    "apollo-server-express": "^2.9.7",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
@@ -32,7 +34,11 @@
     "joi": "^14.3.1",
     "dotenv": "^8.2.0",
     "helmet": "^3.21.2",
-    "mongoose": "^5.7.8"
+    "mongoose": "^5.7.8",
+    "graphql": "^14.5.8",
+    "graphql-tools": "^4.0.6",
+    "graphql-upload": "^8.1.0",
+    "type-graphql": "^0.17.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.1",
@@ -49,6 +55,7 @@
     "@types/dotenv": "^8.2.0",
     "@types/helmet": "^0.0.45",
     "@types/mongoose": "^5.5.30",
+    "@types/graphql-upload": "^8.0.3",
     "@compodoc/compodoc": "^1.1.11",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",

@@ -2,15 +2,42 @@ import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 import * as fs from 'fs';
 
-export interface EnvConfig {
-  [key: string]: string;
-}
+type EnvConfigSchemaKeys =
+  | 'NODE_ENV'
+  | 'PORT'
+  | 'MONGO_DB_URI'
+  | 'BASE_URL'
+  | 'TIMEOUT'
+  | 'MAX_REDIRECTS';
+
+const allowedKeys: EnvConfigSchemaKeys[] = [
+  'NODE_ENV',
+  'PORT',
+  'MONGO_DB_URI',
+  'BASE_URL',
+  'TIMEOUT',
+  'MAX_REDIRECTS',
+];
 
 export class ConfigService {
-  private readonly envConfig: EnvConfig;
+  private readonly envConfig: Record<EnvConfigSchemaKeys, string>;
 
   constructor(filePath: string) {
-    const config = dotenv.parse(fs.readFileSync(filePath));
+    let config;
+
+    if (fs.existsSync(filePath)) {
+      config = dotenv.parse(fs.readFileSync(filePath));
+    } else {
+      config = Object.keys(process.env)
+        .filter(key => allowedKeys.includes(key as EnvConfigSchemaKeys))
+        .reduce((obj, key) => {
+          return {
+            ...obj,
+            [key]: process.env[key],
+          };
+        }, {});
+    }
+
     this.envConfig = ConfigService.validateInput(config);
   }
 
@@ -18,7 +45,9 @@ export class ConfigService {
    * Ensures all needed variables are set, and returns the validated JavaScript object
    * including the applied default values.
    */
-  private static validateInput(envConfig: EnvConfig): EnvConfig {
+  private static validateInput(
+    envConfig: Record<string, string>,
+  ): Record<EnvConfigSchemaKeys, string> {
     const envVarsSchema: Joi.ObjectSchema = Joi.object({
       NODE_ENV: Joi.string()
         .valid(['development', 'production', 'test'])
@@ -36,9 +65,11 @@ export class ConfigService {
       envConfig,
       envVarsSchema,
     );
+
     if (error) {
       throw new Error(`Config validation error: ${error.message}`);
     }
+
     return validatedEnvConfig;
   }
 
